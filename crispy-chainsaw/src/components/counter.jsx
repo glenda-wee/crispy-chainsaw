@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Counter extends Component {
   state = {
-    count: 0,
+    value: this.props.value,
     imageUrl: "https://picsum.photos/200",
     tags: ["chainsaw", "screwdriver", "hammer"],
   };
@@ -21,17 +21,23 @@ class Counter extends Component {
   render() {
     return (
       <React.Fragment>
+        {this.props.children}
         <img src={this.state.imageUrl} alt="" />
         <span className={this.getBadgeColor()}>{this.formatCount()}</span>
         <button
-          onClick={this.handleIncrement}
-          className="btn btn-secondary m-2"
+          onClick={() => this.handleIncrement()}
+          className="btn btn-secondary btn-sm m-2"
         >
           Increment
         </button>
-        <button onClick={this.handleReset} className="btn btn-secondary m-2">
-          Reset
+
+        <button
+          onClick={() => this.handleReset()}
+          className="btn btn-secondary btn-sm m-2"
+        >
+          RESET
         </button>
+
         {this.renderTags()}
       </React.Fragment>
     );
@@ -49,27 +55,26 @@ class Counter extends Component {
     );
   }
 
-  handleIncrement = () => {
+  handleIncrement = (product) => {
     //instead of creating constructor, do this!
-    console.log("Increment Clicked", this);
-    this.setState({ count: this.state.count + 1 }); //tell react what has changed
+    console.log(product);
+    this.setState({ value: this.state.value + 1 }); //tell react what has changed
   };
 
   handleReset = () => {
     //instead of creating constructor, do this!
     console.log("Increment Clicked", this);
-    this.setState({ count: 0 }); //tell react what has changed
+    this.setState({ value: 0 }); //tell react what has changed
   };
 
   getBadgeColor() {
     let classes = "badge m-2 badge"; //to change color of badge dynamically
-    classes += this.state.count == 0 ? "-warning" : "-primary";
+    classes += this.state.value == 0 ? "-warning" : "-primary";
     return classes;
   }
 
   formatCount() {
-    const { count } = this.state;
-    return count == 0 ? <h1>ZERO SUCKERS</h1> : count;
+    return this.state.value == 0 ? "ZERO" : this.state.value;
   }
 }
 
