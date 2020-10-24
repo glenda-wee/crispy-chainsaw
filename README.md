@@ -1,2 +1,3 @@
 # crispy-chainsaw
-A webapp I created to teach me the basics of React JS. 
+A little list of counters following [this tutorial](https://www.youtube.com/watch?v=Ke90Tje7VS0) by Programming with Mosh.
+
