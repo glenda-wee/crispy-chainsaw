@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Counter extends Component {
   state = {
-    value: this.props.value,
+    // value: this.props.counter.value, //we want only 1 source of truth therefore we control directly from counters
     imageUrl: "https://picsum.photos/200",
     tags: ["chainsaw", "screwdriver", "hammer"],
   };
@@ -25,17 +25,24 @@ class Counter extends Component {
         <img src={this.state.imageUrl} alt="" />
         <span className={this.getBadgeColor()}>{this.formatCount()}</span>
         <button
-          onClick={() => this.handleIncrement()}
+          onClick={() => this.props.onIncrement(this.props.counter)}
           className="btn btn-secondary btn-sm m-2"
         >
           Increment
         </button>
 
         <button
-          onClick={() => this.handleReset()}
-          className="btn btn-secondary btn-sm m-2"
+          onClick={() => this.props.onReset(this.props.counter)}
+          className="btn btn-warning btn-sm m-2"
         >
-          RESET
+          Reset
+        </button>
+
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)} //raise event to Counters
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
         </button>
 
         {this.renderTags()}
@@ -44,7 +51,7 @@ class Counter extends Component {
   }
 
   renderTags() {
-    if (this.state.tags.length == 0) return <p>There are no tages!</p>;
+    if (this.state.tags.length === 0) return <p>There are no tages!</p>;
 
     return (
       <ul>
@@ -55,26 +62,20 @@ class Counter extends Component {
     );
   }
 
-  handleIncrement = (product) => {
-    //instead of creating constructor, do this!
-    console.log(product);
-    this.setState({ value: this.state.value + 1 }); //tell react what has changed
-  };
-
-  handleReset = () => {
-    //instead of creating constructor, do this!
-    console.log("Increment Clicked", this);
-    this.setState({ value: 0 }); //tell react what has changed
-  };
+  //   handleIncrement = (product) => {
+  //     //instead of creating constructor, do this!
+  //     console.log(product);
+  //     this.setState({ value: this.state.value + 1 }); //tell react what has changed
+  //   };
 
   getBadgeColor() {
     let classes = "badge m-2 badge"; //to change color of badge dynamically
-    classes += this.state.value == 0 ? "-warning" : "-primary";
+    classes += this.props.counter.value === 0 ? "-warning" : "-primary";
     return classes;
   }
 
   formatCount() {
-    return this.state.value == 0 ? "ZERO" : this.state.value;
+    return this.props.counter.value === 0 ? "ZERO" : this.props.counter.value;
   }
 }
 
